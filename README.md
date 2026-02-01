@@ -29,7 +29,8 @@ The router works just like a context in React and provides all the necessary inf
 ## Defining Routes
 This is generally done at the top level of your application, such as in the App component, but can be done anywhere you want.
 
-`const Home = () =>  <div><Home/div>
+```jsx
+const Home = () =>  <div><Home/div>
 const BookList = () => <div><BookList/div>
 
 export function App() {
@@ -41,7 +42,8 @@ export function App() {
         <Route path="/books/new" element={<NewBook />} />
     </Routes>
   )
-}`
+}
+```
 
 Whenever your URL changes React Router will look at the routes defined in your Routes component and it will render the content in the element prop of the Route that has a path that matches the URL. In the above example if our URL was /books then the BookList component would be rendered.
 
