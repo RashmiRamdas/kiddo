@@ -22,9 +22,11 @@ Import the specific router you need (BrowserRouter for the web and NativeRouter 
 Generally you will import your router in the index.js page of your application and it will wrap your App component. 
 The router works just like a context in React and provides all the necessary information to your application so you can do routing and use all the custom hooks from React Router.
 
-`<BrowserRouter>
+```jsx
+<BrowserRouter>
       <App />
-</BrowserRouter>`
+</BrowserRouter>
+```
 
 ## Defining Routes
 This is generally done at the top level of your application, such as in the App component, but can be done anywhere you want.
@@ -52,60 +54,70 @@ The nice thing about React Router is that when you navigate between pages it wil
 ## Handling Navigation
  Normally in an application you would navigate with anchor tags, but React Router uses its own custom Link component to handle navigation. This Link component is just a wrapper around an anchor tag that helps ensure all the routing and conditional re-rendering is handled properly so you can use it just like your would a normal anchor tag.
 
- `<Link to="/">Home</Link>`
+```jsx
+<Link to="/">Home</Link>
+```
 We need to use `to` prop to set the URL instead of the `href` prop
 
 ## Advanced Route Definitions
 
 ### Dynamic Routing
 
-`<Route path="/books/:id" element={<Book />} />`
+```jsx
+<Route path="/books/:id" element={<Book />} />
+```
 This route has dynamic parameter of :id
 when you have a dynamic route like this you want to access the dynamic value in your custom component which is where the useParams hook comes in.
 
-`import { useParams } from "react-router-dom"
+```jsx
+import { useParams } from "react-router-dom"
 
 export function Book() {
   const { id } = useParams()
 
   return <h1>Book {id}</h1>
-}`
+}
+```
 
 ### Routing Priority
 Consider this,
-`<Route path="/books/:id" element={<Book />} />
-  <Route path="/books/new" element={<NewBook />} />`
+```jsx
+<Route path="/books/:id" element={<Book />} />
+<Route path="/books/new" element={<NewBook />} />
+```
 
 If we have the URL /books/new which route would this match?
 In older versions of React Router whichever route was defined first would be the one that is rendered so in our case the /books/:id route would be rendered which is obviously not what we want. Luckily, version 6 of React Router changed this so now React Router will use an algorithm to determine which route is most likely the one you want. In our case we obviously want to render the /books/new route so React Router will select that route for us.
 
 
-`<Route path="*" element={<NotFound />} />`
+```jsx
+<Route path="*" element={<NotFound />} />
+```
 A * will match anything at all which makes it perfect for things like a 404 page. A route that contains a * will also be less specific than anything else so you will never accidentally match a * route when another route would have also matched.
 
 ### Nested Routes
 
-`
+```jsx
   <Route path="/books">
     <Route index element={<BookList />} />
     <Route path=":id" element={<Book />} />
     <Route path="new" element={<NewBook />} />
   </Route>
-`
+```
 
 This nesting is pretty simple to do. All you need to do is make a parent Route that has the path prop set to the shared path for all your child Route components. Then inside the parent Route you can put all the child Route components. The only difference is that the path prop of the child Route components no longer includes the shared /books route. Also, the route for /books is replaced with a Route component that has no path prop, but instead has an index prop. All this is saying is that the path of the index Route is the same as the parent Route.
 
 Now if this is all you could do with nested routes it would be only marginally useful, but the true power of nested routes comes in how it handles shared layouts.
 
 ### Shared Layouts
-`
+```jsx
 <Route path="/books" element={<BooksLayout />}>
     <Route index element={<BookList />} />
     <Route path=":id" element={<Book />} />
     <Route path="new" element={<NewBook />} />
   </Route>
-`
-`
+```
+```jsx
 export function BooksLayout() {
   return (
     <>
@@ -127,22 +139,23 @@ export function BooksLayout() {
     </>
   )
 }
-`
+```
 
 The way our new code will work is whenever we match a route inside the /book parent Route it will render the BooksLayout component which contains our shared navigation. Then whichever child Route is matched will be rendered wherever the Outlet component is placed inside our layout component. The Outlet component is essentially a placeholder component that will render whatever our current page’s content is. This structure is incredibly useful and makes sharing code between routes incredibly easy.
 
 Another way of sharing layouts
-`
+```jsx
 <Route element={<OtherLayout />}>
     <Route path="/contact" element={<Contact />} />
     <Route path="/about" element={<About />} />
 </Route>
-`
+```
 This bit of code will create two routes, /contact and /about, which both are rendered inside the OtherLayout component. This technique of wrapping multiple Route components in a parent Route component with no path prop is useful if you want those routes to share a single layout even if they don’t have a similar path.
 
 ### Outlet Context
-`<Outlet context={{ hello: "world" }} />`
-`
+```jsx
+<Outlet context={{ hello: "world" }} />
+
 export function Book() {
   const { id } = useParams()
   const context = useOutletContext()
@@ -153,12 +166,12 @@ export function Book() {
     </h1>
   )
 }
-`
+```
 As you can see from this example, we are passing down a context value of { hello: "world" } and then in our child component we are using the useOutletContext hook to access the value for our context. This is a pretty common pattern to use since often you will have shared data between all your child components which is the ideal use case for this context.
 
 ### Multiple Routes
 1. Separate Routes
-`
+```jsx
 export function App() {
   return (
     <>
@@ -181,26 +194,30 @@ export function App() {
       </Routes>
     </>
   )
-}`
+}
+```
 
 In the above example we have two Routes. The main Routes defines all the main components for our page and then we have a secondary Routes inside the aside that will render the sidebar for our books page when we are at /books. This means if our URL is /books both of our Routes components will render out content since they both have a unique match for /books in their Routes.
 
 Another thing that you can do with multiple Routes components is hardcode the `location` prop.
-`<Routes location="/books">
+```jsx
+<Routes location="/books">
   <Route path="/books" element={<BookSidebar />}>
-</Routes>`
+</Routes>
+```
 
 By hardcoding a location prop like this we are overriding the default behavior or React Router so no matter what the URL of our page is this Routes component will match its Route as if the URL was /books.
 
 2. Nested Routes
 
-`<Routes>
+```jsx
+<Routes>
   <Route path="/" element={<Home />} />
   <Route path="/books/*" element={<BookRoutes />} />
   <Route path="*" element={<NotFound />} />
-</Routes>`
+</Routes>
 
-`export function BookRoutes() {
+export function BookRoutes() {
   return (
     <Routes>
       <Route element={<BookLayout />}>
@@ -211,7 +228,8 @@ By hardcoding a location prop like this we are overriding the default behavior o
       </Route>
     </Routes>
   )
-}`
+}
+```
 This is pretty common if you have lots of routes and want to clean up your code by moving similar routes into their own files.
 
 Nesting Routes in React Router is pretty simple. All you need to do is create a new component to store your nested Routes this component should have a Routes component and inside that Routes component should be all the Route components that you are matching with the parent Route. In our case we are moving all our /books routes into this BookRoute component. Then in the parent Routes you need to define a Route that has a path equal to the path all your nested Routes share. In our case that would be /books. The important thing, though, is you need to end your parent Route path with a * otherwise it will not properly match the child routes.
