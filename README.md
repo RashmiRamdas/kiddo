@@ -238,7 +238,8 @@ Essentially, the code we have written says that whenever a route starts with /bo
 
 ### useRoutes Hook
 In React Router you can use a JavaScript object to define your routes instead of JSX if you prefer.
-`  const element = useRoutes([
+```jsx
+const element = useRoutes([
     {
       path: "/",
       element: <Home />,
@@ -250,11 +251,11 @@ In React Router you can use a JavaScript object to define your routes instead of
         { path: ":id", element: <Book /> },
       ],
     },
-  ])`
+  ])
+```
 
 
-todo:
-
-header stick to top and not disappear on scroll
-update texts
-mobile support
+##todo:
+- header stick to top and not disappear on scroll
+- update texts
+- mobile support
