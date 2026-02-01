@@ -1,5 +1,7 @@
 Reference: https://www.tinyorganics.com/
+
 This is a React app built with Webpack and Babel and not using CRA.
+
 This is simple app called KIDDO created for learning purpose.
 
 To use scss
@@ -255,7 +257,7 @@ const element = useRoutes([
 ```
 
 
-##todo:
+## todo:
 - header stick to top and not disappear on scroll
 - update texts
 - mobile support
