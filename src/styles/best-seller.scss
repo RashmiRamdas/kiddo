@@ -1,0 +1,28 @@
+.best-seller--section-one {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem 0 0 0;
+  background-color: #cddc392e;
+
+  &--desc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    &--title {
+      font-size: 4rem;
+      font-weight: 600;
+      max-width: 600px;
+      color: #214042;
+      margin-bottom: 0;
+    }
+
+    &--description {
+      font-size: 2rem;
+      color: #214042;
+      max-width: 500px;
+    }
+  }
+}

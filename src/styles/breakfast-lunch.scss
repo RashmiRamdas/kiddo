@@ -1,0 +1,34 @@
+.bf-lunch--section {
+  &-three,
+  &-five {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3rem 0;
+
+    &--heading {
+      margin: 1rem 2rem;
+    }
+
+    &--line {
+      border-top: 1px solid black;
+      align-self: center;
+      width: 15rem;
+    }
+  }
+
+  &-four,
+  &-six {
+    display: flex;
+    justify-content: center; /* Centers the cards horizontally */
+    gap: 20px; /* Adds space between cards */
+    padding: 0 20px; /* Adds space on the left and right */
+    flex-wrap: wrap; /* Allows cards to wrap when needed */
+    max-width: 90%; /* Optional: limits the width of the container */
+    margin: 0 auto;
+  }
+
+  &-six {
+    margin-bottom: 4rem;
+  }
+}
